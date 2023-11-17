@@ -69,10 +69,47 @@ function sleep(ms) {
    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function init_game(){
+   var use_lower;
+   var use_upper;
+   var use_numbers;
+   var number_lower;
+   var number_upper;
+   use_voice = document.getElementById("use_voice").checked == true;
+   use_lower = document.getElementById("use_lower").checked == true;
+   use_upper = document.getElementById("use_upper").checked == true;
+   use_numbers = document.getElementById("use_numbers").checked == true;
+   number_lower = document.getElementById("start_number").value;
+   number_upper = document.getElementById("end_number").value;
+   
+   game_array = [];
+   if(use_lower == true){
+      for(var x=0; x<init_lower_array.length; x++){
+         game_array.push(init_lower_array[x]);
+      }
+   }
+   if(use_upper == true){
+      for(var x=0; x<init_upper_array.length; x++){
+         game_array.push(init_upper_array[x]);
+      }
+   }
+   if(use_numbers == true){
+      for(var x=number_lower; x<number_upper; x++){
+         game_array.push(String(x))
+      }
+   }
+   if(game_array.length == 0){
+      game_array.push("Please Select Game!")
+   }
+   index = Math.floor(Math.random() * game_array.length);
+   question_div.innerText = game_array[index];
+   game_array.splice(index, 1)
+}
+
 async function next_question(){
    var use_lower;
    var use_upper;
-   var use_number;
+   var use_numbers;
    var number_lower;
    var number_upper;
    use_voice = document.getElementById("use_voice").checked == true;
@@ -83,34 +120,22 @@ async function next_question(){
    number_upper = document.getElementById("end_number").value;
    question_div = document.getElementById("game_text");
    
+   if(window.speechSynthesis.speaking){
+      return
+   }
+   
    if(use_voice == true){
       say_answer();
+      await sleep(1000);
    }
-   
-   await sleep(1000);
    
    if(game_array.length <= 0){
-      game_array = [];
-      if(use_lower == true){
-         for(var x=0; x<init_lower_array.length; x++){
-            game_array.push(init_lower_array[x]);
-         }
-      }
-      if(use_upper == true){
-         for(var x=0; x<init_upper_array.length; x++){
-            game_array.push(init_upper_array[x]);
-         }
-      }
-      if(use_numbers == true){
-         for(var x=number_lower; x<number_upper; x++){
-            game_array.push(String(x))
-         }
-      }
+      init_game();
+   } else {
+      index = Math.floor(Math.random() * game_array.length);
+      question_div.innerText = game_array[index];
+      game_array.splice(index, 1)
    }
-   
-   index = Math.floor(Math.random() * game_array.length);
-   question_div.innerText = game_array[index];
-   game_array.splice(index, 1)
 }
 
 function say_answer(){
