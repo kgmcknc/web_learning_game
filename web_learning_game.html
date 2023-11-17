@@ -1,0 +1,20 @@
+<html>
+   <body>
+      <div id="options_div">
+         <input id="use_lower" type="checkbox" checked>Lowercase letters</button>
+         <input id="use_upper" type="checkbox">Uppercase letters</button>
+         <input id="use_numbers" type="checkbox">Numbers</button>
+         <br>
+         From: <input type="number" id="start_number" min="0" step="1" value="0">
+         To: <input type="number" id="end_number" min="0" step="1" value="20">
+         <select id="voiceSelect" onchange="set_voice()"></select>
+      </div>
+      <div id="game_text" style="font-size:80;margin:auto;width:50px;text-align:center">
+      </div>
+      <div style="font-size:80;margin:auto;width:50px;text-align:center">
+         <button onclick="say_answer()">Say The Answer!</button>
+         <button onclick="next_question()">Next Question!</button>
+      </div>
+      <script src="web_learning_game.js"></script>
+   </body>
+</html>
