@@ -75,6 +75,7 @@ async function next_question(){
    var use_number;
    var number_lower;
    var number_upper;
+   use_voice = document.getElementById("use_voice").checked == true;
    use_lower = document.getElementById("use_lower").checked == true;
    use_upper = document.getElementById("use_upper").checked == true;
    use_numbers = document.getElementById("use_numbers").checked == true;
@@ -82,7 +83,9 @@ async function next_question(){
    number_upper = document.getElementById("end_number").value;
    question_div = document.getElementById("game_text");
    
-   say_answer();
+   if(use_voice == true){
+      say_answer();
+   }
    
    await sleep(1000);
    
