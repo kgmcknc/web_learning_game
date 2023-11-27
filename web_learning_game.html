@@ -5,10 +5,11 @@
             <option value="flash_cards">Flash Cards</option>
             <option value="choice_game">Choice Game</option>
          </select>
-         <input id="use_voice" type="checkbox" checked>Use Voice</button>
-         <input id="use_lower" type="checkbox" onchange="init_game()" checked>Lowercase letters</button>
-         <input id="use_upper" type="checkbox" onchange="init_game()">Uppercase letters</button>
-         <input id="use_numbers" type="checkbox" onchange="init_game()">Numbers</button>
+         <button id="reload_voice" onclick="reload_voices()">Reload Voices</button>
+         <input id="use_voice" type="checkbox" checked>Use Voice</input>
+         <input id="use_lower" type="checkbox" onchange="init_game()" checked>Lowercase letters</input>
+         <input id="use_upper" type="checkbox" onchange="init_game()">Uppercase letters</input>
+         <input id="use_numbers" type="checkbox" onchange="init_game()">Numbers</input>
          <br>
          From: <input type="number" id="start_number" min="0" step="1" value="0">
          To: <input type="number" id="end_number" min="0" step="1" value="20">

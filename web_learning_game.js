@@ -1,7 +1,7 @@
 var init_lower_array = "abcdefghijklmnopqrstuvwxyz"
 var init_upper_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 var game_array = []
-var voices
+let voices = []
 var speech_instance
 var current_text = ""
 var total_answers = 0
@@ -24,6 +24,10 @@ function change_game(){
       choice_game.style.display = "block"
    }
    init_game()
+}
+
+function reload_voices(){
+   populateVoiceList()
 }
 
 function initiate_voices(){
@@ -50,6 +54,40 @@ function initiate_voices(){
 }
 
 function populateVoiceList() {
+   voiceSelect = document.getElementById("voiceSelect")
+   voices = synth.getVoices().sort(function (a, b) {
+      const aname = a.name.toUpperCase();
+      const bname = b.name.toUpperCase();
+
+    if (aname < bname) {
+      return -1;
+    } else if (aname == bname) {
+      return 0;
+    } else {
+      return +1;
+    }
+  });
+  const selectedIndex =
+    voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
+  voiceSelect.innerHTML = "";
+
+  for (let i = 0; i < voices.length; i++) {
+    const option = document.createElement("option");
+    option.textContent = `${voices[i].name} (${voices[i].lang})`;
+
+    if (voices[i].default) {
+      option.textContent += " -- DEFAULT";
+    }
+
+    option.setAttribute("data-lang", voices[i].lang);
+    option.setAttribute("data-name", voices[i].name);
+    voiceSelect.appendChild(option);
+  }
+  voiceSelect.selectedIndex = selectedIndex;
+  set_voice();
+}
+
+function populateVoiceList() {
   if (typeof speechSynthesis === "undefined") {
     return;
   }
@@ -69,8 +107,8 @@ function populateVoiceList() {
     document.getElementById("voiceSelect").appendChild(option);
   }
   
-  voice_select = document.getElementById("voiceSelect");
-  voice_select.selectedIndex = 4;
+  //voice_select = document.getElementById("voiceSelect");
+  //voice_select.selectedIndex = 4;
   set_voice();
 }
 
@@ -84,7 +122,18 @@ function populateVoiceList() {
 
 function set_voice(){
    voice_select = document.getElementById("voiceSelect");
-   speech_instance.voice = voices[voice_select.selectedIndex]
+   
+   if(voiceSelect.length <= 0){
+      return
+   }
+
+  const selectedOption =
+    voiceSelect.selectedOptions[0].getAttribute("data-name");
+  for (let i = 0; i < voices.length; i++) {
+    if (voices[i].name === selectedOption) {
+      speech_instance.voice = voices[i];
+    }
+  }
 }
 
 function sleep(ms) {
